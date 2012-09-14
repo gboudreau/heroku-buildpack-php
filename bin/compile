@@ -5,9 +5,9 @@
 set -e
 
 # config
-APACHE_VERSION="2.2.22"
+APACHE_VERSION="2.4.3"
 APACHE_PATH="apache"
-PHP_VERSION="5.3.10"
+PHP_VERSION="5.3.17"
 PHP_PATH="php"
 
 BIN_DIR=$(dirname $0)
@@ -30,13 +30,18 @@ if [ -f www/Procfile ]; then
   mv www/Procfile .
 fi
 
-APACHE_URL="https://s3.amazonaws.com/php-lp/apache-$APACHE_VERSION.tar.gz"
-echo "-----> Bundling Apache version $APACHE_VERSION"
-curl --silent --max-time 60 --location "$APACHE_URL" | tar xz
+PACKAGES_URL="https://github.com/gboudreau/heroku-buildpack-php-packages/tarball/master"
+echo "-----> Downloading Apache and PHP packages"
+curl --output heroku-buildpack-php.tar.gz --silent --max-time 60 --location $PACKAGES_URL
+tar zxf heroku-buildpack-php.tar.gz && rm heroku-buildpack-php.tar.gz
+mv *heroku-buildpack-php-packages*/* .
+rm -rf *heroku-buildpack-php-packages*
 
-PHP_URL="https://s3.amazonaws.com/php-lp/php-$PHP_VERSION.tar.gz"
+echo "-----> Bundling Apache version $APACHE_VERSION"
+tar xjf apache-$APACHE_VERSION.tar.bz2 && rm apache-$APACHE_VERSION.tar.bz2
+
 echo "-----> Bundling PHP version $PHP_VERSION"
-curl --silent --max-time 60 --location "$PHP_URL" | tar xz
+tar xjf php-$PHP_VERSION.tar.bz2 && rm php-$PHP_VERSION.tar.bz2
 
 # update config files
 cp $LP_DIR/conf/httpd.conf $APACHE_PATH/conf
