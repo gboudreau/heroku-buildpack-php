@@ -18,10 +18,9 @@ Pre-compiling binaries
     # apache
     ## dependencies
     curl -O http://mirror.csclub.uwaterloo.ca/apache/apr/apr-1.4.6.tar.bz2
-    tar xjf apr-1.4.6.tar.bz2
-    
+    tar xjf apr-1.4.6.tar.bz2 && rm apr-1.4.6.tar.bz2
     curl -O http://apache.raffsoftware.com/apr/apr-util-1.4.1.tar.bz2
-    tar xjf apr-util-1.4.1.tar.bz2
+    tar xjf apr-util-1.4.1.tar.bz2 && rm apr-util-1.4.1.tar.bz2
     curl -Lo pcre.tar.bz2 ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.31.tar.bz2
     tar xjf pcre.tar.bz2 && rm pcre.tar.bz2
     cd pcre-*
@@ -47,9 +46,6 @@ Pre-compiling binaries
     make && make install
     cd ..
     
-    # php extensions
-    cp /usr/lib/libmysqlclient.so.15 /app/php/ext/
-    
     # pear
     /app/php/bin/pear config-set php_dir /app/php
     /app/php/bin/pear install Mail Net_SMTP
@@ -58,6 +54,7 @@ Pre-compiling binaries
     cp /app/php/lib/php/extensions/*/apc.so /app/php/ext/
     
     # package
+    cp -r /app/usr/local/pcre/lib/* apache/lib/
     echo '2.4.3' > apache/VERSION
     tar cjf apache-2.4.3.tar.bz2 apache
     echo '5.3.17' > php/VERSION
