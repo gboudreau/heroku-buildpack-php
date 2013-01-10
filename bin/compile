@@ -121,8 +121,8 @@ echo "fakechroot vendored"
 cd $LP_DIR
 echo "-----> Bootstraping a new base ubuntu lucid into /app/.root/"
 mkdir -p $BUILD_DIR/.root
-fakechroot -s fakeroot debootstrap --no-check-gpg --variant=fakechroot lucid $BUILD_DIR/.root
-fakechroot fakeroot chroot $BUILD_DIR/.root apt-get install -y --force-yes gpgv
+fakechroot -s fakeroot debootstrap --no-check-gpg --variant=fakechroot lucid $BUILD_DIR/.root >/dev/null
+fakechroot fakeroot chroot $BUILD_DIR/.root apt-get install -y --force-yes gpgv >/dev/null 2>&1
 echo "/app/.root bootstraped"
 
 sed -i -e "s/#force_color_prompt=yes/force_color_prompt=yes/" $BUILD_DIR/.root/root/.bashrc
@@ -143,3 +143,17 @@ ln -s ../ app
 
 mkdir -p $BUILD_DIR/bin
 cp $LP_DIR/bin/fakesu $BUILD_DIR/bin
+
+echo "-----> Installing New Relic"
+latest_file=`curl -s 'http://download.newrelic.com/php_agent/release/' | grep linux | awk -F'>' '{print $2}' | awk -F'<' '{print $1}'`
+curl -sO "http://download.newrelic.com/php_agent/release/$latest_file"
+tar zxf $latest_file
+
+export NR_INSTALL_SILENT="1"
+export NR_INSTALL_PHPLIST="/app/php/bin/"
+export NR_INSTALL_USE_CP_NOT_LN="1"
+fakechroot fakeroot chroot $BUILD_DIR/.root newrelic*-linux/newrelic-install install
+
+cat newrelic*-linux/scripts/newrelic.ini.template >> /app/php/php.ini
+sed -i'' -e "s/REPLACE_WITH_REAL_KEY/$NR_INSTALL_KEY/" /app/php/php.ini
+echo "New Relic installed"
