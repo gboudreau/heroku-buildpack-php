@@ -89,9 +89,10 @@ export DEBOOTSTRAP_DIR=$CACHE_DIR/.tools/debootstrap/usr/share/debootstrap
 
 echo "-----> Fetching and installing debootstrap"
 cd $DEBOOTSTRAP_BUILD
-curl -O http://archive.ubuntu.com/ubuntu/pool/main/d/debootstrap/debootstrap_1.0.38.tar.gz >/dev/null 2>&1
-tar zxvf debootstrap_1.0.38.tar.gz >/dev/null
-cd debootstrap
+latest_file=`curl -s 'http://archive.ubuntu.com/ubuntu/pool/main/d/debootstrap/' | grep .tar.gz | tail -n 1 | awk -F'"' '{print $8}'`
+curl -sO "http://archive.ubuntu.com/ubuntu/pool/main/d/debootstrap/$latest_file"
+tar zxf $latest_file
+cd debootstrap*
 DESTDIR=$CACHE_DIR/.tools/debootstrap fakeroot make >/dev/null
 DESTDIR=$CACHE_DIR/.tools/debootstrap fakeroot make install >/dev/null
 echo "debootstrap installed"
