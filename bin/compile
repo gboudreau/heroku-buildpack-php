@@ -78,14 +78,25 @@ mktmpdir() {
   echo $dir
 }
 
+WGET_BUILD="$(mktmpdir wget)"
 DEBOOTSTRAP_BUILD="$(mktmpdir debootstrap)"
 FAKECHROOT_BUILD="$(mktmpdir fakechroot)"
 
 mkdir -p $BUILD_DIR/.tools/fakechroot
-mkdir -p $CACHE_DIR/.tools/debootstrap
+mkdir -p $CACHE_DIR/.tools/{wget,debootstrap}
 
-export PATH=/sbin:/usr/sbin:$PATH:$CACHE_DIR/.tools/debootstrap/usr/sbin:$BUILD_DIR/.tools/fakechroot/sbin:$BUILD_DIR/.tools/fakechroot/bin
+export PATH=/sbin:/usr/sbin:$PATH:$CACHE_DIR/.tools/wget/bin:$CACHE_DIR/.tools/debootstrap/usr/sbin:$BUILD_DIR/.tools/fakechroot/sbin:$BUILD_DIR/.tools/fakechroot/bin
 export DEBOOTSTRAP_DIR=$CACHE_DIR/.tools/debootstrap/usr/share/debootstrap
+
+echo "-----> Fetching and installing wget"
+cd $WGET_BUILD
+curl -O http://ftp.gnu.org/gnu/wget/wget-1.13.4.tar.bz2 >/dev/null 2>&1
+tar jxf wget-1.13.4.tar.bz2
+cd wget*
+./configure --prefix=$CACHE_DIR/.tools/wget --without-ssl >/dev/null 2>&1
+make >/dev/null 2>&1
+make install >/dev/null 2>&1
+echo "wget installed"
 
 echo "-----> Fetching and installing debootstrap"
 cd $DEBOOTSTRAP_BUILD
