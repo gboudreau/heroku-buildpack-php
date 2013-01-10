@@ -152,8 +152,8 @@ tar zxf $latest_file
 export NR_INSTALL_SILENT="1"
 export NR_INSTALL_PHPLIST="/app/php/bin/"
 export NR_INSTALL_USE_CP_NOT_LN="1"
-fakechroot fakeroot chroot $BUILD_DIR/.root newrelic*-linux/newrelic-install install
+#fakechroot fakeroot chroot $BUILD_DIR/.root newrelic*-linux/newrelic-install install
 
-cat newrelic*-linux/scripts/newrelic.ini.template >> $BUILD_DIR/php/php.ini
-sed -i'' -e "s/REPLACE_WITH_REAL_KEY/$NR_INSTALL_KEY/" $BUILD_DIR/php/php.ini
+#cat newrelic*-linux/scripts/newrelic.ini.template >> $BUILD_DIR/php/php.ini
+#sed -i'' -e "s/REPLACE_WITH_REAL_KEY/$NR_INSTALL_KEY/" $BUILD_DIR/php/php.ini
 echo "New Relic installed"
