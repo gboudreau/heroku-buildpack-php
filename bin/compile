@@ -7,7 +7,7 @@ set -e
 # config
 APACHE_VERSION="2.4.3"
 APACHE_PATH="apache"
-PHP_VERSION="5.3.17"
+PHP_VERSION="5.3.18"
 PHP_PATH="php"
 
 BIN_DIR=$(dirname $0)
