@@ -143,20 +143,3 @@ ln -s ../ app
 
 mkdir -p $BUILD_DIR/bin
 cp $LP_DIR/bin/fakesu $BUILD_DIR/bin
-
-echo "-----> Installing New Relic"
-latest_file=`curl -s 'http://download.newrelic.com/php_agent/release/' | grep linux | awk -F'>' '{print $2}' | awk -F'<' '{print $1}'`
-curl -sO "http://download.newrelic.com/php_agent/release/$latest_file"
-tar zxf $latest_file
-
-export NR_INSTALL_SILENT="1"
-export NR_INSTALL_PHPLIST="$BUILD_DIR/php/bin/"
-export NR_INSTALL_USE_CP_NOT_LN="1"
-fakechroot fakeroot chroot $BUILD_DIR/.root newrelic*-linux/newrelic-install install
-
-mkdir -p $BUILD_DIR/newrelic_logs/
-cat newrelic*-linux/scripts/newrelic.ini.template >> $BUILD_DIR/php/php.ini
-sed -i'' -e 's/.var.log.newrelic.newrelic-daemon.log/\/app\/newrelic_logs\/newrelic-daemon.log/' $BUILD_DIR/php/php.ini
-sed -i'' -e 's/.var.log.newrelic.php_agent.log/\/app\/newrelic_logs\/php_agent.log/' $BUILD_DIR/php/php.ini
-chmod 777 $BUILD_DIR/newrelic_logs/
-echo "New Relic installed"
