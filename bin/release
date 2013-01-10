@@ -3,7 +3,9 @@
 
 cat <<EOF
 ---
+config_vars:
+  PATH: /usr/local/bin:/usr/bin:/bin:/app/bin
 default_process_types:
   web: sh boot.sh
+  console: bin/fakesu
 EOF
-
