@@ -51,8 +51,9 @@ cp $LP_DIR/conf/php.ini php
 mkdir -p bin
 ln -s /app/php/bin/php bin/php
 
-echo "ls -l /app/php/bin"
-ls -l /app/php/bin
+echo "ls -l bin"
+ls -l bin
+
 echo "ls -l php"
 ls -l php
 
