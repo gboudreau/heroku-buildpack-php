@@ -51,11 +51,11 @@ cp $LP_DIR/conf/php.ini php
 mkdir -p bin
 ln -s /app/php/bin/php bin/php
 
-echo "ls -l bin"
-ls -l bin
+echo "ls -l php/bin"
+ls -l php/bin
 
-echo "ls -l php"
-ls -l php
+echo "Installing AWS SDK..."
+php/bin/pear -D auto_discover=1 install pear.amazonwebservices.com/sdk
 
 cat >>boot.sh <<EOF
 for var in \`env|cut -f1 -d=\`; do
@@ -67,8 +67,6 @@ tail -F /app/apache/logs/error_log &
 tail -F /app/apache/logs/access_log &
 export LD_LIBRARY_PATH=/app/php/ext
 export PHP_INI_SCAN_DIR=/app/www
-echo "Installing AWS SDK..."
-/app/php/bin/pear -D auto_discover=1 install pear.amazonwebservices.com/sdk
 echo "Launching apache..."
 exec /app/apache/bin/httpd -DNO_DETACH
 EOF
