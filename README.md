@@ -50,8 +50,8 @@ Pre-compiling binaries
     /app/php/bin/pear config-set php_dir /app/php
     /app/php/bin/pear install Mail Net_SMTP
     /app/php/bin/pecl uninstall apc
-    /app/php/bin/pecl install apc
-    cp /app/php/lib/php/extensions/*/apc.so /app/php/ext/
+    /app/php/bin/pecl install zip
+    cp /app/php/lib/php/extensions/*/zip.so /app/php/ext/
     
     # package
     cd /app/
