@@ -43,7 +43,7 @@ Pre-compiling binaries
     curl -Lo php.tar.bz2 http://ca1.php.net/get/php-${PHP_VERSION}.tar.bz2/from/this/mirror
     tar xjf php.tar.bz2 && rm php.tar.bz2
     cd php-${PHP_VERSION}/
-    ./configure --prefix=/app/php --with-apxs2=/app/apache/bin/apxs --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-pgsql --with-pdo-pgsql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=/app/php --enable-soap=shared --with-openssl && make && make install
+    ./configure --prefix=/app/php --with-apxs2=/app/apache/bin/apxs --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-pgsql --with-pdo-pgsql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=/app/php --enable-soap=shared --with-openssl --with-zlib && make && make install
     cd ..
     
     # pear
@@ -62,8 +62,8 @@ Pre-compiling binaries
     tar cjf php-${PHP_VERSION}.tar.bz2 php
 
     # Upload the packages
-    curl -u gb -F upfile=@apache-${APACHE_VERSION}.tar.bz2 -F go=Send+File http://pub.pommepause.com/
-    curl -u gb -F upfile=@php-${PHP_VERSION}.tar.bz2 -F go=Send+File http://pub.pommepause.com/
+    curl -u gilles -F upfile=@apache-${APACHE_VERSION}.tar.bz2 -F go=Send+File http://pub.pommepause.com/
+    curl -u gilles -F upfile=@php-${PHP_VERSION}.tar.bz2 -F go=Send+File http://pub.pommepause.com/
     # or scp *.bz2 ...
 
 
